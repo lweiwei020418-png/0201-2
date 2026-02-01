@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e497ce4b6590ffcc3c6831e4e79e67c8191a5f1d2e6468c243b4dfcafdfa0feb
-size 243
+{
+  "name": "2026考研政治祈福报喜H5",
+  "description": "网易有道考研政治专属H5活动，包含出分前祈福墙与出分后报喜台，支持上岸签生成、查分跳转及评价收集。",
+  "requestFramePermissions": []
+}
