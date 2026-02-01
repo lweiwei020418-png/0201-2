@@ -122,4 +122,228 @@ const WishPage: React.FC<WishPageProps> = ({ config, onWishSubmit, onNext }) => 
             return (
               <div 
                 key={t.id}
-                className={`absolute w-[185px] h-[300px] transition-all duration-500 ease-out rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.8)] border-[1.5px] border
+                className={`absolute w-[185px] h-[300px] transition-all duration-500 ease-out rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.8)] border-[1.5px] border-white/10 bg-white/5 backdrop-blur-sm`}
+                style={{
+                  transform: `translateX(${offset * 200}px) rotateY(${offset * 15}deg) scale(${isCenter ? 1 : 0.8})`,
+                  opacity: isCenter ? 1 : 0.5,
+                  zIndex: POSTER_TEMPLATES.length - Math.abs(offset)
+                }}
+              >
+                <div className="relative w-full h-full rounded-xl overflow-hidden">
+                  <div 
+                    className="w-full h-full bg-cover bg-center transition-transform duration-700 hover:scale-110"
+                    style={{ backgroundImage: `url(${t.characterImg})` }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-3">
+                    <h3 className="text-white text-sm font-bold tracking-wider mb-1 drop-shadow-md">
+                      {t.title}
+                    </h3>
+                    <p className="text-yellow-400 text-xs drop-shadow-md">
+                      {t.slogan}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })
+
+          {currentIdx < POSTER_TEMPLATES.length - 1 && (
+            <button 
+              onClick={nextCard}
+              className="absolute right-[-5px] z-[50] w-10 h-10 bg-white/5 backdrop-blur-md rounded-full flex items-center justify-center border border-white/10 active:scale-90 transition-all text-yellow-500/60 shadow-lg"
+            >
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+            </button>
+          )}
+        </div>
+
+        <div className="mt-1 flex flex-col items-center gap-2 flex-shrink-0">
+          <button 
+            onClick={() => {
+              setShowPoster(false);
+              setShowShareGuide(true);
+            }}
+            className="px-6 py-2.5 bg-gradient-to-r from-yellow-500 to-red-500 rounded-full text-white text-sm font-bold tracking-wider active:scale-95 transition-all shadow-lg hover:shadow-xl"
+          >
+            {config.shareButton}
+          </button>
+          <button 
+            onClick={() => setShowPoster(false)}
+            className="px-6 py-2.5 bg-white/10 backdrop-blur-md rounded-full text-white text-sm font-semibold active:scale-95 transition-all border border-white/20"
+          >
+            {config.backButton}
+          </button>
+        </div>
+
+        {showShareGuide && (
+          <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
+            <div className="bg-white rounded-2xl p-5 max-w-xs w-full">
+              <h3 className="text-center text-lg font-bold text-gray-800 mb-3">
+                {config.shareGuideTitle}
+              </h3>
+              <p className="text-gray-600 text-sm text-center mb-5 leading-relaxed">
+                {config.shareGuideText}
+              </p>
+              <div className="flex justify-center mb-5">
+                <div className="w-32 h-32 bg-gray-100 rounded-lg flex items-center justify-center">
+                  <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                  </svg>
+                </div>
+              </div>
+              <button 
+                onClick={() => setShowShareGuide(false)}
+                className="w-full py-3 bg-gradient-to-r from-yellow-500 to-red-500 rounded-full text-white font-bold active:scale-95 transition-all"
+              >
+                {config.gotItButton}
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  if (showForm) {
+    return (
+      <div className="flex flex-col items-center h-full pt-[55px] px-4 overflow-hidden bg-[#5c0b0b]">
+        <h2 className="text-2xl font-bold text-white mb-6 drop-shadow-md">{config.formTitle}</h2>
+        
+        <form onSubmit={handleSubmit} className="w-full max-w-xs bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/20">
+          <div className="mb-4">
+            <label className="block text-white text-sm font-medium mb-2">{config.nicknameLabel}</label>
+            <input 
+              type="text" 
+              value={formData.nickname} 
+              onChange={(e) => setFormData({...formData, nickname: e.target.value})}
+              className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+              placeholder={config.nicknamePlaceholder}
+              maxLength={10}
+            />
+          </div>
+          
+          <div className="mb-4">
+            <label className="block text-white text-sm font-medium mb-2">{config.schoolLabel}</label>
+            <input 
+              type="text" 
+              value={formData.targetSchool} 
+              onChange={(e) => setFormData({...formData, targetSchool: e.target.value})}
+              className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+              placeholder={config.schoolPlaceholder}
+              maxLength={20}
+            />
+          </div>
+          
+          <div className="mb-4">
+            <label className="block text-white text-sm font-medium mb-2">{config.scoreLabel}</label>
+            <input 
+              type="text" 
+              value={formData.targetScore} 
+              onChange={(e) => setFormData({...formData, targetScore: e.target.value})}
+              className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+              placeholder={config.scorePlaceholder}
+              maxLength={10}
+            />
+          </div>
+          
+          <div className="mb-6">
+            <label className="block text-white text-sm font-medium mb-2">{config.messageLabel}</label>
+            <textarea 
+              value={formData.message} 
+              onChange={(e) => setFormData({...formData, message: e.target.value})}
+              className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-yellow-500 resize-none"
+              placeholder={config.messagePlaceholder}
+              rows={3}
+              maxLength={50}
+            />
+          </div>
+          
+          <button 
+            type="submit" 
+            className="w-full py-3 bg-gradient-to-r from-yellow-500 to-red-500 rounded-full text-white font-bold active:scale-95 transition-all shadow-lg"
+          >
+            {config.submitButton}
+          </button>
+        </form>
+        
+        <button 
+          onClick={() => setShowForm(false)}
+          className="mt-4 px-6 py-2.5 bg-white/10 backdrop-blur-md rounded-full text-white text-sm font-semibold active:scale-95 transition-all border border-white/20"
+        >
+          {config.backButton}
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col items-center h-full pt-[55px] px-4 overflow-hidden bg-[#5c0b0b]">
+      {/* 顶部标题 */}
+      <div className="text-center mb-4">
+        <h1 className="text-3xl font-calligraphy text-yellow-400 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-widest">
+          {config.title}
+        </h1>
+        <p className="text-white/80 text-sm mt-1">
+          {config.subTitle}
+        </p>
+      </div>
+
+      {/* 动态弹幕 - 三行滚动 */}
+      <div className="w-full h-[120px] mb-6 relative overflow-hidden">
+        {danmakuRows.map((row, rowIndex) => (
+          <div 
+            key={rowIndex}
+            className="absolute w-full h-7 overflow-hidden"
+            style={{ top: `${rowIndex * 40}px` }}
+          >
+            {row.map((text, idx) => (
+              <div 
+                key={`${rowIndex}-${idx}`}
+                className="absolute whitespace-nowrap text-white text-sm font-bold py-1 px-3 bg-black/30 backdrop-blur-sm rounded-full"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  animation: `danmaku ${15 + Math.random() * 10}s linear infinite`,
+                  animationDelay: `${Math.random() * 5}s`
+                }}
+              >
+                {text}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      {/* 核心操作区 */}
+      <div className="flex flex-col items-center gap-3 flex-1 justify-center">
+        <button 
+          onClick={handleViewCard}
+          className="px-8 py-3 bg-gradient-to-r from-yellow-500 to-red-500 rounded-full text-white text-sm font-bold tracking-wider active:scale-95 transition-all shadow-lg hover:shadow-xl"
+        >
+          {isSubmitted ? config.viewCardButton : config.writeWishButton}
+        </button>
+        
+        <button 
+          onClick={onNext}
+          className="px-8 py-3 bg-white/10 backdrop-blur-md rounded-full text-white text-sm font-semibold active:scale-95 transition-all border border-white/20"
+        >
+          {config.nextButton}
+        </button>
+      </div>
+
+      {/* 底部版权 */}
+      <div className="mt-auto mb-4 text-center text-white/60 text-xs">
+        <p>{config.footerText}</p>
+      </div>
+
+      {/* 全局样式 */}
+      <style jsx global>{`
+        @keyframes danmaku {
+          from { transform: translateX(100vw); }
+          to { transform: translateX(-100%); }
+        }
+      `}</style>
+    </div>
+  );
+};
+
+export default WishPage;
