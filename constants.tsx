@@ -24,6 +24,8 @@ export const GLOBAL_CONFIG = {
   wishPage: {
     title: '2026考研祈福墙',
     subTitle: 'MAY ALL YOUR WISHES TRUE',
+    pageTitle: '2026考研祈福墙',
+    pageSubtitle: 'MAY ALL YOUR WISHES TRUE',
     mainHeading: ['写下心愿', '高分上岸'],
     publicCourse: {
       title: '出分公开课',
@@ -31,7 +33,26 @@ export const GLOBAL_CONFIG = {
       buttonText: '立即预约',
       link: 'https://ke.youdao.com/' 
     },
-    syncSuccessAlert: '祈福成功！心愿已同步至祈福墙。'
+    syncSuccessAlert: '祈福成功！心愿已同步至祈福墙。',
+    shareButton: '分享祈福',
+    backButton: '返回',
+    shareGuideTitle: '分享祈福墙',
+    shareGuideText: '点击右上角分享按钮，将你的祈福分享给更多研友，一起沾沾喜气！',
+    gotItButton: '我知道了',
+    formTitle: '写下你的心愿',
+    nicknameLabel: '昵称',
+    nicknamePlaceholder: '请输入你的昵称',
+    schoolLabel: '目标院校',
+    schoolPlaceholder: '请输入目标院校',
+    scoreLabel: '目标分数',
+    scorePlaceholder: '请输入目标分数',
+    messageLabel: '心愿寄语',
+    messagePlaceholder: '写下你的考研心愿',
+    submitButton: '提交心愿',
+    viewCardButton: '查看祈福卡',
+    writeWishButton: '写下心愿',
+    nextButton: '查分通道',
+    footerText: '网易有道考研 © 2026'
   },
 
   checkScorePage: {
