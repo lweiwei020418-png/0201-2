@@ -19,3 +19,4 @@ export interface UserReport {
   screenshot?: string;
   hasVideo: boolean;
 }
+
