@@ -122,4 +122,4 @@ const WishPage: React.FC<WishPageProps> = ({ config, onWishSubmit, onNext }) => 
             return (
               <div 
                 key={t.id}
-                className={`absolute w-[185px] h-[300px] transition-all duration-500 ease-out rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.8)] border-[1.5px] border
+                className={`absolute w-[185px] h-[300px] transition-all duration-500 ease-out rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.8)] border-[1.5px] border-white/10 bg-white/5 backdrop-blur-sm`}

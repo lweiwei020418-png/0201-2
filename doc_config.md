@@ -1,21 +1,3 @@
-
-# 有道考研 H5 部署与调节手册
-
-## 1. 如何调节线上内容（无需重新发布）
-本应用已内置 **Live Config** 系统。部署后，管理员可以按照以下步骤调整页面：
-1. **进入管理后台**：在手机端打开页面，**快速双击屏幕中心空白区域**。
-2. **切换至 UI 配置**：点击上方的 "UI 配置" 选项卡。
-3. **编辑 JSON**：
-   - 想要改标题？找到 `"title": "..."` 修改即可。
-   - 想要改预约链接？找到 `"link": ""` 填入新的 URL。
-   - 想要改名师照片？找到 `"teacherImg": "..."` 替换链接。
-4. **保存应用**：点击“保存并应用配置”。变更会立即保存在当前浏览器的 LocalStorage 中。
-
-## 2. 全局实时更新策略
-目前的配置保存在本地。若需实现“一人修改，所有用户生效”：
-- **方案 A (简单)**: 在 `App.tsx` 的 `useEffect` 中，使用 `fetch()` 请求一个外部静态 JSON 文件的 URL（如 GitHub Gist 或 CDN 上的 config.json）。
-- **方案 B (高级)**: 接入 Firebase Remote Config 或有道内部的配置管理系统，将 `INITIAL_CONFIG` 作为 Initial State 即可。
-
-## 3. 部署方式建议
-- 推荐使用 **Vercel** 或 **GitHub Pages** 托管，微信内置浏览器兼容性极佳。
-- 确保静态资源（图片、二维码）托管在稳定的 CDN 上以保证加载速度。
+version https://git-lfs.github.com/spec/v1
+oid sha256:b54947d3d0029c6ad08fd68697943eed2a847ca5084e1a06c81d1f4171d48e67
+size 1376

@@ -1,21 +1,3 @@
-
-export enum AppStage {
-  WISH = 'WISH',           // 祈福墙 (出分前)
-  CHECK_SCORE = 'CHECK',   // 查分中转 (出分当天)
-  EVALUATE = 'EVALUATE',   // 评价老师 (查分后)
-  SUCCESS_REPORT = 'REPORT' // 报喜上传 (核心转化)
-}
-
-export interface WishData {
-  nickname: string;
-  targetSchool: string;
-  targetScore: string;
-  message: string;
-}
-
-export interface UserReport {
-  nickname: string;
-  phone: string;
-  screenshot?: string;
-  hasVideo: boolean;
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:15d67ba6fe48b7ac4754eccb860ad1fb75ea1ee9e2d8a515e35827517b50ecb1
+size 481

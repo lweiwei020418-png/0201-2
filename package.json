@@ -1,21 +1,3 @@
-{
-  "name": "2026考研政治祈福报喜h5",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3"
-  },
-  "devDependencies": {
-    "@types/node": "^22.14.0",
-    "@vitejs/plugin-react": "^5.0.0",
-    "typescript": "~5.8.2",
-    "vite": "^6.2.0"
-  }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:28fbd911684f96ee600d5fa2446bc7d97d29ac855cfa4e4c8eb0b657fc89af1d
+size 426
