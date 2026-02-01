@@ -145,7 +145,7 @@ const WishPage: React.FC<WishPageProps> = ({ config, onWishSubmit, onNext }) => 
                 </div>
               </div>
             );
-          })
+          })}
 
           {currentIdx < POSTER_TEMPLATES.length - 1 && (
             <button 
