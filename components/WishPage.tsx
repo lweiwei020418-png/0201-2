@@ -178,7 +178,7 @@ const WishPage: React.FC<WishPageProps> = ({ config, onWishSubmit, onNext }) => 
                 <div className="relative w-full h-full rounded-xl overflow-hidden">
                   <div 
                     className="w-full h-full bg-cover bg-center transition-transform duration-700 hover:scale-110"
-                    style={{ backgroundImage: `url(${t.imageUrl})` }}
+                    style={{ backgroundImage: `url(${t.characterImg})` }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-3">
                     <h3 className="text-white text-sm font-bold tracking-wider mb-1 drop-shadow-md">
@@ -344,10 +344,10 @@ const WishPage: React.FC<WishPageProps> = ({ config, onWishSubmit, onNext }) => 
       {/* 顶部标题 */}
       <div className="text-center mb-4">
         <h1 className="text-3xl font-calligraphy text-yellow-400 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tracking-widest">
-          {config.pageTitle}
+          {config.title}
         </h1>
         <p className="text-white/80 text-sm mt-1">
-          {config.pageSubtitle}
+          {config.subTitle}
         </p>
       </div>
 
