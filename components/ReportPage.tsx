@@ -77,7 +77,7 @@ const ReportPage: React.FC<ReportPageProps> = ({ config, onReportSubmit }) => {
                  {GLOBAL_CONFIG.reportPage.promoDesc}
                </p>
                <div className="w-full py-3 bg-yellow-500/10 border border-yellow-500/30 rounded-full flex items-center justify-center gap-2 text-xs text-yellow-500 font-black tracking-widest uppercase">
-                  {GLOBAL_CONFIG.reportPage.promoBtn} <span className="animate-pulse">&gt;&gt;&gt;</span>
+                  {GLOBAL_CONFIG.reportPage.promoBtn} <span className="animate-pulse">>>></span>
                </div>
              </div>
         </div>
