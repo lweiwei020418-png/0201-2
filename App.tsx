@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { AppStage, WishData } from './types';
 import { GLOBAL_CONFIG, INITIAL_STATS } from './constants';
