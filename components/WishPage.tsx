@@ -1,10 +1,35 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { WishData } from '../types';
 import { POSTER_TEMPLATES, GLOBAL_CONFIG } from '../constants';
 
+// 补充config的基础类型定义（避免any类型）
+interface WishPageConfig {
+  syncSuccessAlert: string;
+  shareButton: string;
+  backButton: string;
+  shareGuideTitle: string;
+  shareGuideText: string;
+  gotItButton: string;
+  formTitle: string;
+  nicknameLabel: string;
+  nicknamePlaceholder: string;
+  schoolLabel: string;
+  schoolPlaceholder: string;
+  scoreLabel: string;
+  scorePlaceholder: string;
+  messageLabel: string;
+  messagePlaceholder: string;
+  submitButton: string;
+  pageTitle: string;
+  pageSubtitle: string;
+  viewCardButton: string;
+  writeWishButton: string;
+  nextButton: string;
+  footerText: string;
+}
+
 interface WishPageProps {
-  config: any;
+  config: WishPageConfig; // 替换any为具体类型
   onWishSubmit: (data: WishData) => void;
   onNext: () => void;
 }
@@ -29,21 +54,37 @@ const WishPage: React.FC<WishPageProps> = ({ config, onWishSubmit, onNext }) => 
     // 核心持久化逻辑：页面加载时自动回填
     const saved = localStorage.getItem('yidao_last_wish');
     if (saved) {
-      const parsed = JSON.parse(saved);
-      setFormData(parsed);
-      setIsSubmitted(true);
+      try { // 增加JSON解析容错
+        const parsed = JSON.parse(saved);
+        setFormData(parsed);
+        setIsSubmitted(true);
+      } catch (e) {
+        console.error('解析本地愿望数据失败:', e);
+      }
     }
     
     const savedWall = localStorage.getItem('yidao_wishes_wall');
-    if (savedWall) setDanmakuRows(JSON.parse(savedWall));
+    if (savedWall) {
+      try {
+        setDanmakuRows(JSON.parse(savedWall));
+      } catch (e) {
+        console.error('解析弹幕墙数据失败:', e);
+      }
+    }
     
-    audioRef.current = new Audio(GLOBAL_CONFIG.bgmUrl);
-    audioRef.current.loop = true;
+    // 音频初始化优化
+    if (GLOBAL_CONFIG.bgmUrl) {
+      audioRef.current = new Audio(GLOBAL_CONFIG.bgmUrl);
+      audioRef.current.loop = true;
+    }
   }, []);
 
   const startBgm = () => {
     if (audioRef.current && audioRef.current.paused) {
-      audioRef.current.play().catch(err => console.log("音频播放需交互"));
+      // 音频播放需要用户交互，优化错误提示
+      audioRef.current.play().catch(err => {
+        console.warn("音频播放需用户交互触发:", err);
+      });
     }
   };
 
@@ -102,7 +143,11 @@ const WishPage: React.FC<WishPageProps> = ({ config, onWishSubmit, onNext }) => 
         </div>
 
         {/* 卡片核心容器 - 高度进一步缩减至 310px，确保全机型不挡操作栏 */}
-        <div className="relative w-full h-[310px] flex items-center justify-center perspective-1000 mt-2 mb-1 flex-shrink-0">
+        <div 
+          className="relative w-full h-[310px] flex items-center justify-center perspective-1000 mt-2 mb-1 flex-shrink-0"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
           
           {currentIdx > 0 && (
             <button 
@@ -113,6 +158,7 @@ const WishPage: React.FC<WishPageProps> = ({ config, onWishSubmit, onNext }) => 
             </button>
           )}
 
+          {/* 修复点1：补充map循环的闭合括号 */}
           {POSTER_TEMPLATES.map((t, i) => {
             const offset = i - currentIdx;
             const isCenter = i === currentIdx;
@@ -142,8 +188,10 @@ const WishPage: React.FC<WishPageProps> = ({ config, onWishSubmit, onNext }) => 
                       {t.description}
                     </p>
                   </div>
+                </div>
+              </div>
             );
-          })
+          })} {/* 修复点1：新增map循环闭合括号 */}
 
           {currentIdx < POSTER_TEMPLATES.length - 1 && (
             <button 
@@ -217,6 +265,7 @@ const WishPage: React.FC<WishPageProps> = ({ config, onWishSubmit, onNext }) => 
               className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-yellow-500"
               placeholder={config.nicknamePlaceholder}
               maxLength={10}
+              required // 增加必填校验
             />
           </div>
           
@@ -229,6 +278,7 @@ const WishPage: React.FC<WishPageProps> = ({ config, onWishSubmit, onNext }) => 
               className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-yellow-500"
               placeholder={config.schoolPlaceholder}
               maxLength={20}
+              required
             />
           </div>
           
@@ -241,6 +291,7 @@ const WishPage: React.FC<WishPageProps> = ({ config, onWishSubmit, onNext }) => 
               className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-yellow-500"
               placeholder={config.scorePlaceholder}
               maxLength={10}
+              required
             />
           </div>
           
@@ -253,6 +304,7 @@ const WishPage: React.FC<WishPageProps> = ({ config, onWishSubmit, onNext }) => 
               placeholder={config.messagePlaceholder}
               rows={3}
               maxLength={50}
+              required
             />
           </div>
           
@@ -274,6 +326,19 @@ const WishPage: React.FC<WishPageProps> = ({ config, onWishSubmit, onNext }) => 
     );
   }
 
+  // 修复点2：全局动画样式改为React支持的方式（创建style标签插入DOM）
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.innerHTML = `
+      @keyframes danmaku {
+        from { transform: translateX(100vw); }
+        to { transform: translateX(-100%); }
+      }
+    `;
+    document.head.appendChild(style);
+    return () => document.head.removeChild(style);
+  }, []);
+
   return (
     <div className="flex flex-col items-center h-full pt-[55px] px-4 overflow-hidden bg-[#5c0b0b]">
       {/* 顶部标题 */}
@@ -291,11 +356,12 @@ const WishPage: React.FC<WishPageProps> = ({ config, onWishSubmit, onNext }) => 
         {danmakuRows.map((row, rowIndex) => (
           <div 
             key={rowIndex}
-            className="absolute w-full h-7 top-[${rowIndex * 40}px] overflow-hidden"
+            className="absolute w-full h-7 overflow-hidden"
+            style={{ top: `${rowIndex * 40}px` }} // 修复点3：top样式移到style属性
           >
             {row.map((text, idx) => (
               <div 
-                key={idx}
+                key={`${rowIndex}-${idx}`} // 修复key唯一性
                 className="absolute whitespace-nowrap text-white text-sm font-bold py-1 px-3 bg-black/30 backdrop-blur-sm rounded-full"
                 style={{
                   left: `${Math.random() * 100}%`,
@@ -331,14 +397,6 @@ const WishPage: React.FC<WishPageProps> = ({ config, onWishSubmit, onNext }) => 
       <div className="mt-auto mb-4 text-center text-white/60 text-xs">
         <p>{config.footerText}</p>
       </div>
-
-      {/* 全局样式 */}
-      <style jsx global>{`
-        @keyframes danmaku {
-          from { transform: translateX(100vw); }
-          to { transform: translateX(-100%); }
-        }
-      `}</style>
     </div>
   );
 };
